@@ -1,6 +1,9 @@
 import { Controller, Get, Post, Param, Body, Patch, Delete, Put } from '@nestjs/common';
 import { Task } from './task.entity';
 import { TaskService } from './task.service';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
+import { PatchTaskDto } from './dto/patch-task.dto';
 
 @Controller('tasks')
 export class TaskController {
@@ -8,10 +11,9 @@ export class TaskController {
 
   @Post()
   async createTask(
-    @Body('title') title: string,
-    @Body('description') description?: string,
+    @Body() createTaskDto: CreateTaskDto,
   ): Promise<Task> {
-    return this.taskService.createTask(title, description);
+    return this.taskService.createTask(createTaskDto.title, createTaskDto.description);
   }
 
   @Get()
@@ -27,19 +29,17 @@ export class TaskController {
   @Put(':id')
   async updateTask(
     @Param('id') id: number,
-    @Body('title') title: string,
-    @Body('description') description?: string,
-    @Body('status') status?: string,
+    @Body() updateTaskDto: UpdateTaskDto
   ): Promise<Task> {
-    return this.taskService.updateTask(id, title, description, status);
+    return this.taskService.updateTask(id, updateTaskDto.title, updateTaskDto.description, updateTaskDto.status);
   }
 
   @Patch(':id')
   async updateTaskStatus(
     @Param('id') id: number,
-    @Body('status') status: string,
+    @Body('status') patchTaskDto:PatchTaskDto
   ): Promise<Task> {
-    return this.taskService.updateTaskStatus(id, status);
+    return this.taskService.updateTaskStatus(id, patchTaskDto.status);
   }
 
   @Delete(':id')

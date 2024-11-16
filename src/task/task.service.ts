@@ -31,7 +31,6 @@ export class TaskService {
     const task = await this.taskRepository.findOneBy({ id });
     if (!task) throw new Error('Task not found');
 
-    // Update the task properties with the new values
     task.title = title;
     if (description) task.description = description;
     if (status) task.status = status;
