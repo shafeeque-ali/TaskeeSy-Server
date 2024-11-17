@@ -11,14 +11,30 @@ export class TaskService {
   ) {}
 
   // Create a new task
-  async createTask(title: string, description?: string): Promise<Task> {
-    const task = this.taskRepository.create({ title, description });
+  async createTask(
+    title: string,
+    description?: string,
+    status?: string,
+  ): Promise<Task> {
+    const task = this.taskRepository.create({ title, description, status });
     return this.taskRepository.save(task);
   }
 
   // Get all tasks
-  async getAllTasks(): Promise<Task[]> {
-    return this.taskRepository.find();
+  async getAllTasks(status: string): Promise<Task[]> {
+    if (status) {
+      return this.taskRepository.find({
+        order: {
+          id: 'DESC',
+        },
+        where: { status },
+      });
+    }
+    return this.taskRepository.find({
+      order: {
+        id: 'DESC',
+      },
+    });
   }
 
   // Get a task by ID
@@ -27,7 +43,12 @@ export class TaskService {
   }
 
   // Update all task values
-  async updateTask(id: number, title: string, description?: string, status?: string): Promise<Task> {
+  async updateTask(
+    id: number,
+    title: string,
+    description?: string,
+    status?: string,
+  ): Promise<Task> {
     const task = await this.taskRepository.findOneBy({ id });
     if (!task) throw new Error('Task not found');
 

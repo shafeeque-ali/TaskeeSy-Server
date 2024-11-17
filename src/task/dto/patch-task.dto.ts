@@ -1,6 +1,8 @@
 import { IsString, IsOptional, IsEnum } from 'class-validator';
+import { TaskStatus } from '../helper/task-status.enum';
+
 
 export class PatchTaskDto {
-  @IsEnum(['pending', 'in-progress', 'completed'])
-  status: string;
+  @IsEnum(TaskStatus)
+  status?: TaskStatus;
 }

@@ -5,12 +5,13 @@ export class CreateTaskDto {
   @IsString()
   title: string;
 
-  @IsOptional() // optional field
+  @IsOptional()
   @IsString()
   description?: string;
 
   // @IsEnum(['pending', 'in-progress', 'completed'])
   // status: string;
+  @IsOptional()
   @IsEnum(TaskStatus)
-  status: TaskStatus;
+  status?: TaskStatus;
 }

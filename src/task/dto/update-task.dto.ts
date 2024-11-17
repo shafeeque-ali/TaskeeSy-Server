@@ -1,4 +1,6 @@
 import { IsString, IsOptional, IsEnum } from 'class-validator';
+import { TaskStatus } from '../helper/task-status.enum';
+
 
 export class UpdateTaskDto {
   @IsString()
@@ -9,6 +11,6 @@ export class UpdateTaskDto {
   description?: string;
 
   @IsOptional()
-  @IsEnum(['pending', 'in-progress', 'completed'])
-  status?: string;
+  @IsEnum(TaskStatus)
+  status?: TaskStatus;
 }
